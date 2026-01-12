@@ -1,0 +1,20 @@
+
+
+.bubble {
+  max-width: 75%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: var(--radius);
+  animation: fadeUp 0.2s ease;
+}
+
+.bubble.user {
+  background: var(--user-bg);
+  color: white;
+  margin-left: auto;
+}
+
+.bubble.bot {
+  background: var(--bot-bg);
+  color: var(--text-dark);
+}

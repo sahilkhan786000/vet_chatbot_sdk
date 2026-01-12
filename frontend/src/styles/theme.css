@@ -1,0 +1,15 @@
+:root {
+  --primary: #6fcf97;
+  --secondary: #56ccf2;
+  --bg: #f6fff9;
+  --bot-bg: #e8fff2;
+  --user-bg: #56ccf2;
+  --text-dark: #333;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
