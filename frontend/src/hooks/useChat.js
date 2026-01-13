@@ -11,21 +11,21 @@ export function useChat() {
   useEffect(() => {
     async function loadSessions() {
       try {
-        const res = await fetch("http://localhost:5000/api/conversations");
+        const res = await fetch("https://vet-chatbot-sdk.onrender.com/api/conversations");
         const data = await res.json();
 
-        // Normalize backend response for UI
+       
         const normalized = data.map((c) => ({
           sessionId: c.sessionId,
           createdAt: c.createdAt,
           title:
             c.messages?.[0]?.text?.slice(0, 50) || "New Chat",
-          messages: [] // messages loaded lazily
+          messages: [] 
         }));
 
         setSessions(normalized);
 
-        // Auto-select latest session
+      
         if (normalized.length && !activeSessionId) {
           setActiveSessionId(normalized[0].sessionId);
         }
@@ -46,7 +46,7 @@ export function useChat() {
     async function loadMessages() {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/conversations/${activeSessionId}`
+          `https://vet-chatbot-sdk.onrender.com/api/conversations/${activeSessionId}`
         );
         const messages = await res.json();
 
@@ -101,7 +101,7 @@ export function useChat() {
 
     setLoading(true);
 
-    // Optimistic UI: user message
+ 
     setSessions((prev) =>
       prev.map((s) =>
         s.sessionId === activeSessionId
@@ -118,7 +118,7 @@ export function useChat() {
     );
 
     try {
-      const res = await fetch("http://localhost:5000/api/chat", {
+      const res = await fetch("https://vet-chatbot-sdk.onrender.com/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -130,7 +130,7 @@ export function useChat() {
 
       const data = await res.json();
 
-      // Append bot reply
+   
       setSessions((prev) =>
         prev.map((s) =>
           s.sessionId === activeSessionId
