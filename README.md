@@ -40,26 +40,47 @@ It can be embedded into **any website using a single script tag**, with optional
 ## 📂 Project Structure (Simplified)
 
 Chatbot-SDK/
+
 ├── backend/
+
 │ ├── src/
+
 │ │ ├── app.js
+
 │ │ ├── server.js
+
 │ │ ├── routes/
+
 │ │ ├── controllers/
+
 │ │ ├── models/
+
 │ │ └── services/
+
 │ ├── public/
+
 │ │ ├── chatbot.js # SDK file
+
 │ │ └── frontend/ # React build
+
 │ └── package.json
+
 │
+
 ├── frontend/
+
 │ ├── src/
+
 │ │ ├── components/
+
 │ │ ├── hooks/
+
 │ │ └── sdk/embed.jsx # SDK entry
+
 │ ├── vite.config.js
+
 │ └── package.json
+
 │
 └── README.md
 
