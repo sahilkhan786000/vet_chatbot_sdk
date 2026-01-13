@@ -1,20 +1,25 @@
-
-
 .bubble {
   max-width: 75%;
-  padding: 12px;
+  padding: 12px 14px;
   margin-bottom: 10px;
-  border-radius: var(--radius);
+
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(10px);
   animation: fadeUp 0.2s ease;
 }
 
 .bubble.user {
-  background: var(--user-bg);
+  background: linear-gradient(
+    135deg,
+    #56ccf2,
+    #2f80ed
+  );
   color: white;
   margin-left: auto;
 }
 
 .bubble.bot {
-  background: var(--bot-bg);
-  color: var(--text-dark);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--glass-border);
+  color: #fff;
 }

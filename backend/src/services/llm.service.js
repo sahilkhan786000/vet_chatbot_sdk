@@ -28,6 +28,11 @@ Rules:
 - Use simple, friendly language.
 - Do not include emojis, markdown, or citations.
 - Return plain text only.
+- Do NOT diagnose illnesses
+- Do NOT name specific diseases
+- Only provide general advice
+- Always recommend consulting a veterinarian
+
 `;
 
 function fallbackAnswer() {

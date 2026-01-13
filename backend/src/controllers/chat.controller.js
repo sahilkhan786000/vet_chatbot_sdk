@@ -1,43 +1,67 @@
 const Conversation = require("../models/Conversation");
 const { isAppointmentIntent } = require("../utils/intentDetector");
 const { queryVetLLM } = require("../services/llm.service");
+const {
+  getNextQuestion,
+  saveAnswer,
+  isComplete
+} = require("../services/appointmentFlow.service");
 
 exports.handleChat = async (req, res) => {
   const { sessionId, message, context } = req.body;
 
-  let conversation = await Conversation.findOne({ sessionId });
+  let convo = await Conversation.findOne({ sessionId });
 
-  if (!conversation) {
-    conversation = await Conversation.create({
+  if (!convo) {
+    convo = await Conversation.create({
       sessionId,
       context,
-      messages: [],
+      messages: []
     });
   }
 
-  // Save user message
-  conversation.messages.push({
-    role: "user",
-    text: message,
-  });
+  convo.messages.push({ role: "user", text: message });
 
   let reply;
 
-  // Appointment intent check
-  if (isAppointmentIntent(message)) {
-    reply =
-      "I can help you book a veterinary appointment. What is the pet owner's name?";
-  } else {
+  // 🔥 IF ALREADY IN APPOINTMENT MODE
+  if (convo.mode === "APPOINTMENT") {
+    convo.appointmentData = saveAnswer(
+      convo.appointmentData || {},
+      message
+    );
+
+    if (isComplete(convo.appointmentData)) {
+      reply = `
+✅ Appointment details received:
+Owner: ${convo.appointmentData.ownerName}
+Pet: ${convo.appointmentData.petName}
+Phone: ${convo.appointmentData.phone}
+Date/Time: ${convo.appointmentData.preferredDateTime}
+
+Your appointment has been booked. A vet will contact you shortly.
+      `.trim();
+
+      convo.mode = "CHAT";
+    } else {
+      reply = getNextQuestion(convo.appointmentData);
+    }
+  }
+
+  // 🔥 START APPOINTMENT FLOW
+  else if (isAppointmentIntent(message)) {
+    convo.mode = "APPOINTMENT";
+    convo.appointmentData = {};
+    reply = "Sure 🐶 Let’s book an appointment. What is the pet owner's name?";
+  }
+
+  // 🔥 NORMAL CHAT → LLM
+  else {
     reply = await queryVetLLM(message);
   }
 
-  // Save bot reply
-  conversation.messages.push({
-    role: "bot",
-    text: reply,
-  });
-
-  await conversation.save();
+  convo.messages.push({ role: "bot", text: reply });
+  await convo.save();
 
   res.json({ reply });
 };
