@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+
+/* This makes the "background" of your app invisible 
+   so only the floating button shows up */
+html, body, #root {
+    background-color: transparent !important;
+}
