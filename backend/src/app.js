@@ -24,7 +24,7 @@ app.use("/api/appointments", appointmentRoutes);
 app.use("/api/conversations", require("./routes/conversation.routes"));
 
 // This ensures files in your 'public' folder are accessible via your-url.com/sdk/filename.js
-app.use("/sdk", express.static(path.join(__dirname, "public")));
+app.use("/sdk", express.static(path.join(__dirname, "../public")));
 
 const frontendPath = path.join(__dirname, "../public/dist");
 app.use(express.static(frontendPath));
